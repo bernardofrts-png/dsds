@@ -2,11 +2,11 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Sistema de Gestão</title>
+    <title>Sistema de Gestão Operacional</title>
     
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="
@@ -23,7 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           RESET E VARIÁVEIS
+           VARIÁVEIS E RESET
            ============================================ */
         * {
             margin: 0;
@@ -48,6 +48,8 @@
             --color-warning-bg: #FFFBEB;
             --color-danger: #EF4444;
             --color-danger-bg: #FEF2F2;
+            --color-info: #3B82F6;
+            --color-info-bg: #EFF6FF;
             
             --color-urgent: #DC2626;
             --color-urgent-bg: #FEE2E2;
@@ -69,17 +71,21 @@
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             
             --spacing-xs: 0.25rem;
             --spacing-sm: 0.5rem;
             --spacing-md: 1rem;
             --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
             
             --radius-sm: 0.375rem;
             --radius-md: 0.5rem;
             --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
             
-            --transition-fast: 150ms ease;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         body {
@@ -89,48 +95,52 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
         }
         
         /* ============================================
-           LOGIN PAGE - MOBILE OPTIMIZED
+           LOGIN PAGE
            ============================================ */
         .login-page {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            min-height: -webkit-fill-available;
-            padding: var(--spacing-lg);
+            padding: var(--spacing-xl);
             background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
         }
         
         .login-container {
             background: var(--color-bg-elevated);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            padding: var(--spacing-lg);
-            max-width: 400px;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            padding: calc(var(--spacing-xl) * 1.5);
+            max-width: 440px;
             width: 100%;
         }
         
         .login-header {
             text-align: center;
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: calc(var(--spacing-xl) * 1.5);
         }
         
         .login-icon {
-            font-size: 48px;
-            margin-bottom: var(--spacing-md);
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-lg);
+            font-size: 28px;
+            box-shadow: var(--shadow-md);
         }
         
         .login-title {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 700;
             color: var(--color-text-primary);
-            margin-bottom: var(--spacing-xs);
+            margin-bottom: var(--spacing-sm);
         }
         
         .login-subtitle {
@@ -139,7 +149,7 @@
         }
         
         .form-group {
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
         }
         
         .form-label {
@@ -147,52 +157,57 @@
             font-size: 0.875rem;
             font-weight: 600;
             color: var(--color-text-primary);
-            margin-bottom: var(--spacing-xs);
+            margin-bottom: var(--spacing-sm);
         }
         
         .form-input {
             width: 100%;
-            padding: 0.875rem;
+            padding: 0.75rem var(--spacing-md);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-md);
-            font-size: 16px; /* Previne zoom no iOS */
+            font-size: 0.9375rem;
             font-family: inherit;
             color: var(--color-text-primary);
             background: var(--color-bg-elevated);
-            transition: all var(--transition-fast);
+            transition: all var(--transition-base);
         }
         
         .form-input:focus {
             outline: none;
             border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
         .btn-primary {
             width: 100%;
-            padding: 0.875rem;
+            padding: 0.75rem var(--spacing-md);
             background: var(--color-accent);
             color: var(--color-text-inverse);
             border: none;
             border-radius: var(--radius-md);
-            font-size: 1rem;
+            font-size: 0.9375rem;
             font-weight: 600;
+            font-family: inherit;
             cursor: pointer;
-            transition: all var(--transition-fast);
-            touch-action: manipulation;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
         }
         
-        .btn-primary:active {
-            transform: scale(0.98);
+        .btn-primary:hover:not(:disabled) {
+            background: var(--color-accent-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
         }
         
         .btn-primary:disabled {
             opacity: 0.6;
+            cursor: not-allowed;
         }
         
         .alert {
-            padding: 0.75rem;
+            padding: 0.875rem var(--spacing-md);
             border-radius: var(--radius-md);
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
             font-size: 0.875rem;
             font-weight: 500;
         }
@@ -200,11 +215,13 @@
         .alert.error {
             background: var(--color-danger-bg);
             color: var(--color-danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
         
         .alert.success {
             background: var(--color-success-bg);
             color: var(--color-success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
         
         .spinner {
@@ -230,108 +247,122 @@
         }
         
         /* ============================================
-           APP PAGE - MOBILE OPTIMIZED
+           APP PAGE - LAYOUT RESPONSIVO
            ============================================ */
         .app-page {
             display: none;
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
+            background: var(--color-bg-main);
         }
         
         .app-layout {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            min-height: -webkit-fill-available;
+            max-width: 1600px;
+            margin: 0 auto;
         }
         
         /* ============================================
-           HEADER - MOBILE STICKY
+           HEADER
            ============================================ */
         .header {
             background: var(--color-primary);
             color: var(--color-text-inverse);
-            padding: var(--spacing-md);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .header-top {
+            padding: var(--spacing-lg) var(--spacing-xl);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--spacing-sm);
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .user-badge {
             background: rgba(255, 255, 255, 0.15);
-            padding: 0.375rem 0.75rem;
+            padding: var(--spacing-sm) var(--spacing-md);
             border-radius: var(--radius-md);
             font-size: 0.875rem;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 0.375rem;
+            gap: var(--spacing-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        .header p {
+            opacity: 0.8;
+            font-size: 0.8125rem;
+            margin-top: 0.25rem;
         }
         
         .header-actions {
             display: flex;
             gap: var(--spacing-sm);
+            align-items: center;
         }
         
-        .header-btn {
+        .archive-btn,
+        .logout-btn {
             background: rgba(255, 255, 255, 0.15);
             color: var(--color-text-inverse);
-            border: none;
-            padding: 0.375rem 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: var(--spacing-sm) var(--spacing-md);
             border-radius: var(--radius-md);
             font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
-            touch-action: manipulation;
+            transition: all var(--transition-fast);
+            font-family: inherit;
         }
         
-        .header-title {
-            text-align: center;
+        .archive-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
         }
         
-        .header-title h1 {
-            font-size: 1.125rem;
-            font-weight: 700;
-        }
-        
-        .header-title p {
-            font-size: 0.75rem;
-            opacity: 0.8;
+        .archive-btn:hover,
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
         }
         
         /* ============================================
-           CONTAINER - MOBILE OPTIMIZED
+           CONTAINER
            ============================================ */
         .container {
             flex: 1;
+            background: var(--color-bg-elevated);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            margin: var(--spacing-lg);
             display: flex;
             flex-direction: column;
-            background: var(--color-bg-elevated);
-            overflow: hidden;
         }
         
         /* ============================================
            TASKS AREA
            ============================================ */
-        .tasks-area {
+        .chat-area {
             flex: 1;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding: var(--spacing-md);
+            padding: var(--spacing-lg);
+            background: var(--color-bg-main);
+            min-height: 400px;
         }
         
         .empty-state {
             text-align: center;
-            padding: var(--spacing-lg);
+            padding: calc(var(--spacing-xl) * 3) var(--spacing-lg);
             color: var(--color-text-muted);
+            font-size: 0.9375rem;
         }
         
         .message {
@@ -341,6 +372,11 @@
             border-radius: var(--radius-md);
             box-shadow: var(--shadow-sm);
             border-left: 3px solid var(--color-border-strong);
+            transition: all var(--transition-fast);
+        }
+        
+        .message:hover {
+            box-shadow: var(--shadow-md);
         }
         
         .message.urgente { border-left-color: var(--color-urgent); }
@@ -356,11 +392,11 @@
         .message-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: var(--spacing-sm);
-            font-size: 0.75rem;
+            font-size: 0.8125rem;
+            align-items: center;
             flex-wrap: wrap;
-            gap: var(--spacing-xs);
+            gap: var(--spacing-sm);
         }
         
         .message-user {
@@ -370,17 +406,19 @@
         
         .message-time {
             color: var(--color-text-muted);
-            font-size: 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
         
         .priority-badge {
             display: inline-flex;
             align-items: center;
-            padding: 0.25rem 0.5rem;
+            gap: 0.25rem;
+            padding: 0.25rem var(--spacing-sm);
             border-radius: var(--radius-sm);
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            margin-left: var(--spacing-xs);
+            margin-left: var(--spacing-sm);
         }
         
         .priority-badge.urgente {
@@ -404,10 +442,10 @@
         }
         
         .message-text {
-            margin-bottom: var(--spacing-sm);
-            line-height: 1.5;
+            margin-bottom: var(--spacing-md);
+            line-height: 1.6;
+            color: var(--color-text-primary);
             font-size: 0.9375rem;
-            word-wrap: break-word;
         }
         
         .message-footer {
@@ -417,32 +455,45 @@
         }
         
         .status-select {
-            padding: 0.5rem;
+            padding: 0.375rem var(--spacing-sm);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-sm);
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             font-family: inherit;
             cursor: pointer;
             background: var(--color-bg-elevated);
-            flex: 1;
-            min-width: 120px;
+            color: var(--color-text-primary);
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+        
+        .status-select:hover {
+            border-color: var(--color-border-strong);
+        }
+        
+        .status-select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
         .delete-btn {
             background: var(--color-danger-bg);
             color: var(--color-danger);
             border: 1px solid rgba(239, 68, 68, 0.2);
-            padding: 0.5rem 0.75rem;
+            padding: 0.375rem var(--spacing-md);
             border-radius: var(--radius-sm);
             cursor: pointer;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             font-weight: 600;
             font-family: inherit;
-            touch-action: manipulation;
+            transition: all var(--transition-fast);
         }
         
-        .delete-btn:active {
-            transform: scale(0.95);
+        .delete-btn:hover {
+            background: var(--color-danger);
+            color: var(--color-text-inverse);
+            border-color: var(--color-danger);
         }
         
         .delete-btn.hidden {
@@ -450,112 +501,132 @@
         }
         
         /* ============================================
-           INPUT AREA - MOBILE STICKY
+           INPUT AREA
            ============================================ */
         .input-area {
             background: var(--color-bg-elevated);
-            padding: var(--spacing-md);
+            padding: var(--spacing-lg) var(--spacing-xl);
             border-top: 1px solid var(--color-border);
-            position: sticky;
-            bottom: 0;
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
         }
         
         .priority-buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
         }
         
         .priority-buttons button {
-            padding: 0.5rem 0.25rem;
+            padding: var(--spacing-sm);
             border: 1px solid var(--color-border);
             background: var(--color-bg-elevated);
             border-radius: var(--radius-md);
             cursor: pointer;
-            font-size: 0.75rem;
+            font-size: 0.8125rem;
             font-weight: 600;
             font-family: inherit;
             transition: all var(--transition-fast);
-            touch-action: manipulation;
+            color: var(--color-text-primary);
+        }
+        
+        .priority-buttons button:hover {
+            border-color: var(--color-border-strong);
+            background: var(--color-bg-subtle);
         }
         
         .priority-buttons button.active {
             border-color: var(--color-accent);
-            background: rgba(59, 130, 246, 0.1);
+            background: var(--color-info-bg);
             color: var(--color-accent);
         }
         
         .input-box {
             display: flex;
-            gap: var(--spacing-sm);
-            align-items: flex-end;
+            gap: var(--spacing-md);
+            align-items: stretch;
         }
         
         textarea {
             flex: 1;
-            padding: 0.75rem;
+            padding: var(--spacing-md);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-md);
-            font-size: 16px; /* Previne zoom no iOS */
+            font-size: 0.9375rem;
             font-family: inherit;
-            resize: none;
-            min-height: 60px;
-            max-height: 120px;
+            resize: vertical;
+            min-height: 80px;
+            max-height: 200px;
+            transition: all var(--transition-base);
             color: var(--color-text-primary);
             background: var(--color-bg-elevated);
+            line-height: 1.6;
+        }
+        
+        textarea:hover {
+            border-color: var(--color-border-strong);
         }
         
         textarea:focus {
             outline: none;
             border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
-        .action-buttons {
+        .button-group {
             display: flex;
             flex-direction: column;
-            gap: var(--spacing-xs);
+            gap: var(--spacing-sm);
         }
         
-        .btn-action {
-            padding: 0.75rem 0.875rem;
+        button.send,
+        button.pin {
+            padding: var(--spacing-md) var(--spacing-lg);
             color: var(--color-text-inverse);
             border: none;
             border-radius: var(--radius-md);
             font-size: 0.875rem;
             font-weight: 600;
+            font-family: inherit;
             cursor: pointer;
             white-space: nowrap;
-            touch-action: manipulation;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
         }
         
-        .btn-action.send {
+        button.send {
             background: var(--color-accent);
         }
         
-        .btn-action.pin {
+        button.send:hover {
+            background: var(--color-accent-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+        
+        button.pin {
             background: var(--color-warning);
         }
         
-        .btn-action:active {
-            transform: scale(0.95);
+        button.pin:hover {
+            background: #D97706;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
         }
         
         .alert-app {
             background: var(--color-warning-bg);
             border: 1px solid rgba(245, 158, 11, 0.2);
             color: #B45309;
-            padding: 0.5rem 0.75rem;
+            padding: var(--spacing-sm) var(--spacing-md);
             border-radius: var(--radius-md);
-            margin-bottom: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
             font-size: 0.8125rem;
             text-align: center;
             font-weight: 500;
         }
         
         /* ============================================
-           MODAL - MOBILE OPTIMIZED
+           MODAL
            ============================================ */
         .modal-overlay {
             display: none;
@@ -564,43 +635,48 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(4px);
             z-index: 1000;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xl);
         }
         
         .modal-overlay.show {
-            display: block;
+            display: flex;
         }
         
         .modal {
             background: var(--color-bg-elevated);
-            min-height: 100vh;
+            border-radius: var(--radius-xl);
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
             display: flex;
             flex-direction: column;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--color-border);
         }
         
         .modal-header {
             background: var(--color-primary);
             color: var(--color-text-inverse);
-            padding: var(--spacing-md);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
         
         .modal-header h2 {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             font-weight: 700;
         }
         
         .modal-close {
             background: rgba(255, 255, 255, 0.15);
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--color-text-inverse);
             width: 36px;
             height: 36px;
@@ -610,26 +686,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            touch-action: manipulation;
+            transition: all var(--transition-fast);
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.25);
         }
         
         .modal-filters {
-            padding: var(--spacing-md);
+            padding: var(--spacing-lg) var(--spacing-xl);
             background: var(--color-bg-subtle);
             border-bottom: 1px solid var(--color-border);
         }
         
         .filters-row {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-sm);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
         }
         
         .filter-group {
             display: flex;
             flex-direction: column;
-            gap: 0.25rem;
+            gap: var(--spacing-sm);
         }
         
         .filter-label {
@@ -640,34 +720,48 @@
         
         .filter-select,
         .filter-input {
-            padding: 0.625rem;
+            padding: var(--spacing-sm) var(--spacing-md);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-md);
-            font-size: 16px; /* Previne zoom no iOS */
+            font-size: 0.875rem;
             font-family: inherit;
             background: var(--color-bg-elevated);
+            color: var(--color-text-primary);
+            transition: all var(--transition-fast);
+        }
+        
+        .filter-select:focus,
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
         .filters-actions {
             display: flex;
             gap: var(--spacing-sm);
+            justify-content: flex-end;
         }
         
         .btn-filter,
         .btn-clear {
-            flex: 1;
-            padding: 0.625rem;
+            padding: var(--spacing-sm) var(--spacing-md);
             border-radius: var(--radius-md);
             font-size: 0.875rem;
             font-weight: 600;
+            font-family: inherit;
             cursor: pointer;
-            touch-action: manipulation;
+            transition: all var(--transition-fast);
         }
         
         .btn-filter {
             background: var(--color-accent);
             color: var(--color-text-inverse);
-            border: none;
+            border: 1px solid var(--color-accent);
+        }
+        
+        .btn-filter:hover {
+            background: var(--color-accent-hover);
         }
         
         .btn-clear {
@@ -676,11 +770,15 @@
             border: 1px solid var(--color-border);
         }
         
+        .btn-clear:hover {
+            background: var(--color-bg-subtle);
+        }
+        
         .modal-content {
             flex: 1;
-            padding: var(--spacing-md);
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            padding: var(--spacing-lg) var(--spacing-xl);
+            background: var(--color-bg-main);
         }
         
         .archive-item {
@@ -700,65 +798,110 @@
         .archive-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: var(--spacing-xs);
+            margin-bottom: var(--spacing-sm);
             font-size: 0.75rem;
             color: var(--color-text-secondary);
             flex-wrap: wrap;
         }
         
         .archive-text {
-            margin-bottom: var(--spacing-sm);
-            line-height: 1.5;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-primary);
+            line-height: 1.6;
             font-size: 0.9375rem;
-            word-wrap: break-word;
         }
         
         .archive-meta {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--color-text-muted);
             display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
         }
         
         .archive-badge {
             background: var(--color-bg-subtle);
-            padding: 0.25rem 0.5rem;
+            padding: 0.25rem var(--spacing-sm);
             border-radius: var(--radius-sm);
             font-weight: 600;
-            display: inline-block;
-            width: fit-content;
+            border: 1px solid var(--color-border);
         }
         
         .archive-empty {
             text-align: center;
-            padding: var(--spacing-lg);
+            padding: calc(var(--spacing-xl) * 3) var(--spacing-lg);
             color: var(--color-text-muted);
         }
         
         .archive-empty-icon {
-            font-size: 48px;
-            margin-bottom: var(--spacing-sm);
+            font-size: 64px;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.5;
         }
         
         /* ============================================
-           TABLET/DESKTOP (OPCIONAL)
+           MOBILE OPTIMIZATIONS
            ============================================ */
-        @media (min-width: 768px) {
-            .app-layout {
-                max-width: 768px;
-                margin: 0 auto;
+        @media (max-width: 768px) {
+            .login-container {
+                padding: var(--spacing-lg);
+            }
+            
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .header h1 {
+                font-size: 1.125rem;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            
+            .chat-area {
+                min-height: 300px;
+            }
+            
+            .input-box {
+                flex-direction: column;
+            }
+            
+            .button-group {
+                flex-direction: row;
+            }
+            
+            button.send,
+            button.pin {
+                flex: 1;
+            }
+            
+            .modal-overlay {
+                padding: 0;
             }
             
             .modal {
-                margin: var(--spacing-lg);
-                border-radius: var(--radius-lg);
-                min-height: auto;
-                max-height: 90vh;
+                border-radius: 0;
+                max-height: 100vh;
+                height: 100vh;
             }
             
             .modal-header {
-                border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+                border-radius: 0;
+            }
+            
+            .filters-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-input,
+            textarea,
+            .filter-select,
+            .filter-input {
+                font-size: 16px; /* Previne zoom no iOS */
             }
         }
     </style>
@@ -770,7 +913,7 @@
             <div class="login-header">
                 <div class="login-icon">🔐</div>
                 <h1 class="login-title">Sistema de Gestão</h1>
-                <p class="login-subtitle">Acesso seguro</p>
+                <p class="login-subtitle">Acesso seguro à plataforma operacional</p>
             </div>
             
             <div id="alertContainer"></div>
@@ -798,24 +941,24 @@
     <div class="app-page" id="appPage">
         <div class="app-layout">
             <div class="header">
-                <div class="header-top">
-                    <div class="user-badge">
-                        <span>👤</span>
-                        <span id="headerUserName">Utilizador</span>
-                    </div>
-                    <div class="header-actions">
-                        <button class="header-btn" id="openArchiveBtn">📁</button>
-                        <button class="header-btn" id="logoutBtn">Sair</button>
-                    </div>
+                <div class="user-badge">
+                    <span>👤</span>
+                    <span id="headerUserName">Utilizador</span>
                 </div>
-                <div class="header-title">
+                <div style="text-align:center; flex:1;">
                     <h1>Sistema Operacional</h1>
                     <p>Gestão de tarefas e ocorrências</p>
+                </div>
+                <div class="header-actions">
+                    <button class="archive-btn" id="openArchiveBtn">
+                        📁 Arquivo
+                    </button>
+                    <button class="logout-btn" id="logoutBtn">Sair</button>
                 </div>
             </div>
             
             <div class="container">
-                <div class="tasks-area" id="chatArea">
+                <div class="chat-area" id="chatArea">
                     <div class="empty-state">✨ Nenhuma tarefa registada</div>
                 </div>
                 
@@ -830,10 +973,10 @@
                     </div>
                     
                     <div class="input-box">
-                        <textarea id="tarefaInput" placeholder="Descreva a tarefa..." rows="2" maxlength="5000"></textarea>
-                        <div class="action-buttons">
-                            <button class="btn-action send" id="addTaskBtn">📋</button>
-                            <button class="btn-action pin" id="addNoteBtn">📌</button>
+                        <textarea id="tarefaInput" placeholder="Descreva a tarefa ou ocorrência..." rows="3" maxlength="5000"></textarea>
+                        <div class="button-group">
+                            <button class="send" id="addTaskBtn">📋 Registar</button>
+                            <button class="pin" id="addNoteBtn">📌 Afixar</button>
                         </div>
                     </div>
                 </div>
@@ -841,11 +984,11 @@
         </div>
     </div>
     
-    <!-- MODAL ARQUIVO -->
+    <!-- MODAL -->
     <div class="modal-overlay" id="archiveModal">
         <div class="modal">
             <div class="modal-header">
-                <h2>📁 Arquivo</h2>
+                <h2>📁 Arquivo Histórico</h2>
                 <button class="modal-close" id="closeArchiveBtn">×</button>
             </div>
             
@@ -885,15 +1028,15 @@
                 </div>
                 
                 <div class="filters-actions">
-                    <button class="btn-clear" id="clearFiltersBtn">Limpar</button>
-                    <button class="btn-filter" id="applyFiltersBtn">Filtrar</button>
+                    <button class="btn-clear" id="clearFiltersBtn">✖ Limpar</button>
+                    <button class="btn-filter" id="applyFiltersBtn">🔍 Filtrar</button>
                 </div>
             </div>
             
             <div class="modal-content" id="archiveContent">
                 <div class="archive-empty">
                     <div class="archive-empty-icon">📭</div>
-                    <p>Nenhum registo</p>
+                    <p>Nenhum registo arquivado</p>
                 </div>
             </div>
         </div>
@@ -905,27 +1048,16 @@
             const SUPABASE_URL = 'https://gwayfwoqdcilpddgnvzb.supabase.co';
             const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd3YXlmd29xZGNpbHBkZGdudnpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA0ODQyNjQsImV4cCI6MjA4NjA2MDI2NH0.LZYSrPlsUK1qJnC-BvVW7rzbGRUqOdG_P6JWA_hftgk';
             
-            let sbClient;
-            let userAtual = null;
-            let nomeAtual = null;
-            let prioridadeAtual = 'hoje';
-            let fazendoLogin = false;
-            let userIdAtual = null;
+            let sbClient, userAtual = null, nomeAtual = null, prioridadeAtual = 'hoje', fazendoLogin = false, userIdAtual = null;
             
             function escapeHtml(unsafe) {
                 if (typeof unsafe !== 'string') return '';
-                return unsafe
-                    .replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;")
-                    .replace(/"/g, "&quot;")
-                    .replace(/'/g, "&#039;");
+                return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
             }
             
             function validarTamanhoTexto(texto) {
-                const MAX_LENGTH = 5000;
-                if (texto.length > MAX_LENGTH) {
-                    mostrarAlertaApp(`❌ Texto muito longo (máximo ${MAX_LENGTH} caracteres)`);
+                if (texto.length > 5000) {
+                    mostrarAlertaApp('❌ Texto muito longo (máximo 5000 caracteres)');
                     return false;
                 }
                 return true;
@@ -943,14 +1075,8 @@
             async function verificarSessao() {
                 try {
                     const { data: { session } } = await sbClient.auth.getSession();
-                    if (session) {
-                        mostrarApp(session.user);
-                    } else {
-                        mostrarLogin();
-                    }
-                } catch (error) {
-                    mostrarLogin();
-                }
+                    session ? mostrarApp(session.user) : mostrarLogin();
+                } catch { mostrarLogin(); }
             }
             
             async function fazerLogin() {
@@ -981,12 +1107,7 @@
                     }
                     
                     userIdAtual = data.user.id;
-                    
-                    const { data: userData, error: userError } = await sbClient
-                        .from('users')
-                        .select('name, id')
-                        .eq('email', email)
-                        .maybeSingle();
+                    const { data: userData } = await sbClient.from('users').select('name, id').eq('email', email).maybeSingle();
                     
                     if (!userData || !userData.name) {
                         btn.innerHTML = 'Entrar';
@@ -1005,12 +1126,7 @@
                             btn.innerHTML = '<span class="spinner"></span> A guardar...';
                             
                             await sbClient.from('users').delete().eq('email', email);
-                            
-                            await sbClient.from('users').insert({
-                                id: userIdAtual,
-                                email: email,
-                                name: nome
-                            });
+                            await sbClient.from('users').insert({ id: userIdAtual, email: email, name: nome });
                             
                             mostrarAlerta('✅ Nome guardado!', 'success');
                             setTimeout(() => {
@@ -1021,14 +1137,13 @@
                         
                         fazendoLogin = false;
                     } else {
-                        mostrarAlerta('✅ Bem-vindo!', 'success');
+                        mostrarAlerta('✅ Bem-vindo de volta!', 'success');
                         setTimeout(() => {
                             fazendoLogin = false;
                             mostrarApp(data.user, userData.name);
                         }, 500);
                     }
-                    
-                } catch (error) {
+                } catch {
                     mostrarAlerta('❌ Erro ao fazer login', 'error');
                     fazendoLogin = false;
                     btn.disabled = false;
@@ -1038,26 +1153,20 @@
             
             async function fazerLogout() {
                 if (!confirm('Tem a certeza?')) return;
-                
                 try {
                     await sbClient.auth.signOut();
-                    userAtual = null;
-                    nomeAtual = null;
-                    userIdAtual = null;
+                    userAtual = nomeAtual = userIdAtual = null;
                     fazendoLogin = false;
-                    
                     document.getElementById('emailInput').value = '';
                     document.getElementById('passwordInput').value = '';
                     document.getElementById('nameInput').value = '';
                     document.getElementById('nameGroup').classList.remove('show');
-                    
                     const btn = document.getElementById('loginBtn');
                     btn.disabled = false;
                     btn.innerHTML = 'Entrar';
                     btn.onclick = fazerLogin;
-                    
                     mostrarLogin();
-                } catch (err) {}
+                } catch {}
             }
             
             function mostrarLogin() {
@@ -1068,49 +1177,33 @@
             async function mostrarApp(user, nome = null) {
                 userAtual = user.email;
                 userIdAtual = user.id;
-                
                 if (!nome) {
                     const { data } = await sbClient.from('users').select('name').eq('email', user.email).single();
                     nome = data?.name || user.email.split('@')[0];
                 }
-                
                 nomeAtual = nome;
-                
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('appPage').style.display = 'block';
                 document.getElementById('headerUserName').textContent = nomeAtual;
-                
-                carregarTudo();
+                carregarTarefas();
             }
             
-            async function carregarTudo() {
-                await carregarTarefas();
-            }
-            
-            function getPriorityLabel(priority) {
-                const labels = {
-                    'urgente': '🔴 Urgente',
-                    'hoje': '🟡 Hoje',
-                    'semana': '🔵 Semana',
-                    'normal': '⚪ Normal'
-                };
-                return labels[priority] || priority;
+            function getPriorityLabel(p) {
+                const l = { 'urgente': '🔴 Urgente', 'hoje': '🟡 Hoje', 'semana': '🔵 Semana', 'normal': '⚪ Normal' };
+                return l[p] || p;
             }
             
             async function carregarTarefas() {
                 try {
                     const { data } = await sbClient.from('tasks').select('*').eq('tipo', 'normal').order('created_at', { ascending: true });
-                    
                     let html = '';
                     if (data && data.length > 0) {
                         data.forEach(t => {
                             const created = new Date(t.created_at);
                             const tempo = created.getDate() + '/' + (created.getMonth()+1) + ' ' + created.getHours() + ':' + ('0'+created.getMinutes()).slice(-2);
                             const podeApagar = t.user_email === userAtual;
-                            
                             const userName = escapeHtml(t.user_name || t.user_email);
                             const textoSanitizado = escapeHtml(t.texto);
-                            
                             html += `<div class="message ${t.prioridade}${t.status === 'feito' ? ' feito' : ''}" data-id="${t.id}">
                                 <div class="message-header">
                                     <div>
@@ -1132,226 +1225,114 @@
                     } else {
                         html = '<div class="empty-state">✨ Nenhuma tarefa registada</div>';
                     }
-                    
                     document.getElementById('chatArea').innerHTML = html;
-                } catch (err) {}
+                } catch {}
             }
             
             async function adicionarTarefa() {
                 const texto = document.getElementById('tarefaInput').value.trim();
-                if (!texto) {
-                    mostrarAlertaApp('⚠️ Digite algo!');
-                    return;
-                }
-                
-                if (!validarTamanhoTexto(texto)) {
-                    return;
-                }
-                
+                if (!texto) { mostrarAlertaApp('⚠️ Digite algo!'); return; }
+                if (!validarTamanhoTexto(texto)) return;
                 try {
                     const { error } = await sbClient.from('tasks').insert({
-                        user_email: userAtual,
-                        user_name: nomeAtual,
-                        user_emoji: '👤',
-                        texto: texto,
-                        tipo: 'normal',
-                        prioridade: prioridadeAtual,
-                        status: 'por-fazer'
+                        user_email: userAtual, user_name: nomeAtual, user_emoji: '👤',
+                        texto: texto, tipo: 'normal', prioridade: prioridadeAtual, status: 'por-fazer'
                     });
-                    
-                    if (error) {
-                        mostrarAlertaApp('❌ Erro!');
-                        return;
-                    }
-                    
+                    if (error) { mostrarAlertaApp('❌ Erro!'); return; }
                     document.getElementById('tarefaInput').value = '';
-                    mostrarAlertaApp('✅ Adicionada!');
+                    mostrarAlertaApp('✅ Tarefa adicionada!');
                     setTimeout(carregarTarefas, 200);
-                } catch (err) {}
+                } catch {}
             }
             
             async function afixarNota() {
                 const texto = document.getElementById('tarefaInput').value.trim();
-                if (!texto) {
-                    mostrarAlertaApp('⚠️ Digite algo!');
-                    return;
-                }
-                
-                if (!validarTamanhoTexto(texto)) {
-                    return;
-                }
-                
+                if (!texto) { mostrarAlertaApp('⚠️ Digite algo!'); return; }
+                if (!validarTamanhoTexto(texto)) return;
                 try {
                     const { error } = await sbClient.from('tasks').insert({
-                        user_email: userAtual,
-                        user_name: nomeAtual,
-                        user_emoji: '📌',
-                        texto: texto,
-                        tipo: 'nota-dir',
-                        prioridade: 'normal',
-                        status: 'nota'
+                        user_email: userAtual, user_name: nomeAtual, user_emoji: '📌',
+                        texto: texto, tipo: 'nota-dir', prioridade: 'normal', status: 'nota'
                     });
-                    
-                    if (error) {
-                        mostrarAlertaApp('❌ Erro!');
-                        return;
-                    }
-                    
+                    if (error) { mostrarAlertaApp('❌ Erro!'); return; }
                     document.getElementById('tarefaInput').value = '';
-                    mostrarAlertaApp('📌 Afixada!');
+                    mostrarAlertaApp('📌 Nota afixada!');
                     setTimeout(carregarTarefas, 200);
-                } catch (err) {}
+                } catch {}
             }
             
             async function apagarItem(id) {
-                if (!confirm('⚠️ Tem certeza que deseja arquivar?')) {
-                    return;
-                }
-                
+                if (!confirm('⚠️ Tem certeza que deseja arquivar este item?')) return;
                 try {
                     const { data: task } = await sbClient.from('tasks').select('*').eq('id', id).single();
-                    
                     if (task) {
                         await sbClient.from('archived_tasks').insert({
-                            task_id: task.id,
-                            user_email: task.user_email,
-                            user_name: task.user_name,
-                            user_emoji: task.user_emoji,
-                            texto: task.texto,
-                            prioridade: task.prioridade,
-                            status: task.status,
-                            tipo: task.tipo,
-                            created_at: task.created_at,
-                            archived_by: userAtual
+                            task_id: task.id, user_email: task.user_email, user_name: task.user_name,
+                            user_emoji: task.user_emoji, texto: task.texto, prioridade: task.prioridade,
+                            status: task.status, tipo: task.tipo, created_at: task.created_at, archived_by: userAtual
                         });
                     }
-                    
                     await sbClient.from('tasks').delete().eq('id', id);
-                    mostrarAlertaApp('📁 Arquivado!');
+                    mostrarAlertaApp('📁 Movido para arquivo!');
                     setTimeout(carregarTarefas, 200);
-                } catch (err) {
-                    mostrarAlertaApp('❌ Erro!');
-                }
+                } catch { mostrarAlertaApp('❌ Erro ao arquivar!'); }
             }
             
             function calcularPeriodo(periodo) {
-                const agora = new Date();
-                const inicio = new Date();
-                
+                const agora = new Date(), inicio = new Date();
                 switch(periodo) {
-                    case 'hoje':
-                        inicio.setHours(0, 0, 0, 0);
-                        return { inicio, fim: agora };
-                    case 'semana':
-                        const diaHoje = agora.getDay();
-                        const diff = diaHoje === 0 ? 6 : diaHoje - 1;
-                        inicio.setDate(agora.getDate() - diff);
-                        inicio.setHours(0, 0, 0, 0);
-                        return { inicio, fim: agora };
-                    case 'mes':
-                        inicio.setDate(1);
-                        inicio.setHours(0, 0, 0, 0);
-                        return { inicio, fim: agora };
-                    case 'ano':
-                        inicio.setMonth(0, 1);
-                        inicio.setHours(0, 0, 0, 0);
-                        return { inicio, fim: agora };
-                    default:
-                        return null;
+                    case 'hoje': inicio.setHours(0,0,0,0); return {inicio,fim:agora};
+                    case 'semana': const d=agora.getDay(),diff=d===0?6:d-1; inicio.setDate(agora.getDate()-diff); inicio.setHours(0,0,0,0); return {inicio,fim:agora};
+                    case 'mes': inicio.setDate(1); inicio.setHours(0,0,0,0); return {inicio,fim:agora};
+                    case 'ano': inicio.setMonth(0,1); inicio.setHours(0,0,0,0); return {inicio,fim:agora};
+                    default: return null;
                 }
             }
             
-            async function carregarArquivo(filtros = {}) {
+            async function carregarArquivo(filtros={}) {
                 try {
-                    let query = sbClient.from('archived_tasks').select('*').order('archived_at', { ascending: false });
-                    
-                    if (filtros.prioridade) {
-                        query = query.eq('prioridade', filtros.prioridade);
-                    }
-                    
+                    let query = sbClient.from('archived_tasks').select('*').order('archived_at',{ascending:false});
+                    if (filtros.prioridade) query = query.eq('prioridade', filtros.prioridade);
                     if (filtros.periodo) {
                         const periodo = calcularPeriodo(filtros.periodo);
-                        if (periodo) {
-                            query = query.gte('created_at', periodo.inicio.toISOString()).lte('created_at', periodo.fim.toISOString());
-                        }
+                        if (periodo) query = query.gte('created_at',periodo.inicio.toISOString()).lte('created_at',periodo.fim.toISOString());
                     } else {
-                        if (filtros.dataInicio) {
-                            query = query.gte('created_at', filtros.dataInicio + 'T00:00:00');
-                        }
-                        
-                        if (filtros.dataFim) {
-                            query = query.lte('created_at', filtros.dataFim + 'T23:59:59');
-                        }
+                        if (filtros.dataInicio) query = query.gte('created_at',filtros.dataInicio+'T00:00:00');
+                        if (filtros.dataFim) query = query.lte('created_at',filtros.dataFim+'T23:59:59');
                     }
-                    
                     const { data } = await query;
-                    
                     const container = document.getElementById('archiveContent');
-                    
                     if (!data || data.length === 0) {
-                        container.innerHTML = `
-                            <div class="archive-empty">
-                                <div class="archive-empty-icon">📭</div>
-                                <p>Nenhum registo</p>
-                            </div>
-                        `;
+                        container.innerHTML = '<div class="archive-empty"><div class="archive-empty-icon">📭</div><p>Nenhum registo arquivado</p></div>';
                         return;
                     }
-                    
                     let html = '';
                     data.forEach(item => {
-                        const created = new Date(item.created_at);
-                        const archived = new Date(item.archived_at);
-                        
-                        const dataCriacao = created.getDate() + '/' + (created.getMonth()+1) + '/' + created.getFullYear();
-                        const dataArquivo = archived.getDate() + '/' + (archived.getMonth()+1) + '/' + archived.getFullYear();
-                        
-                        const userName = escapeHtml(item.user_name || item.user_email);
-                        const textoSanitizado = escapeHtml(item.texto);
-                        const archivedBy = escapeHtml(item.archived_by);
-                        
-                        html += `
-                            <div class="archive-item ${item.prioridade}">
-                                <div class="archive-header">
-                                    <span>${userName}</span>
-                                    <span>${dataCriacao}</span>
-                                </div>
-                                <div class="archive-text">${textoSanitizado}</div>
-                                <div class="archive-meta">
-                                    <span class="archive-badge">${getPriorityLabel(item.prioridade)}</span>
-                                    <span>Por: ${archivedBy}</span>
-                                    <span>Em: ${dataArquivo}</span>
-                                </div>
+                        const created = new Date(item.created_at), archived = new Date(item.archived_at);
+                        const dataCriacao = created.getDate()+'/'+(created.getMonth()+1)+'/'+created.getFullYear();
+                        const dataArquivo = archived.getDate()+'/'+(archived.getMonth()+1)+'/'+archived.getFullYear()+' '+archived.getHours()+':'+('0'+archived.getMinutes()).slice(-2);
+                        html += `<div class="archive-item ${item.prioridade}">
+                            <div class="archive-header"><span>${escapeHtml(item.user_name||item.user_email)}</span><span>Criada: ${dataCriacao}</span></div>
+                            <div class="archive-text">${escapeHtml(item.texto)}</div>
+                            <div class="archive-meta">
+                                <span class="archive-badge">${getPriorityLabel(item.prioridade)}</span>
+                                <span>Arquivada por: ${escapeHtml(item.archived_by)}</span>
+                                <span>Em: ${dataArquivo}</span>
                             </div>
-                        `;
+                        </div>`;
                     });
-                    
                     container.innerHTML = html;
-                } catch (err) {}
+                } catch {}
             }
             
-            function abrirArquivo() {
-                document.getElementById('archiveModal').classList.add('show');
-                document.body.style.overflow = 'hidden';
-                carregarArquivo();
-            }
-            
-            function fecharArquivo() {
-                document.getElementById('archiveModal').classList.remove('show');
-                document.body.style.overflow = '';
-            }
-            
-            function aplicarFiltros() {
-                const filtros = {
-                    prioridade: document.getElementById('filterPriority').value,
-                    periodo: document.getElementById('filterPeriod').value,
-                    dataInicio: document.getElementById('filterDateStart').value,
-                    dataFim: document.getElementById('filterDateEnd').value
-                };
-                
-                carregarArquivo(filtros);
-            }
-            
+            function abrirArquivo() { document.getElementById('archiveModal').classList.add('show'); carregarArquivo(); }
+            function fecharArquivo() { document.getElementById('archiveModal').classList.remove('show'); }
+            function aplicarFiltros() { carregarArquivo({
+                prioridade: document.getElementById('filterPriority').value,
+                periodo: document.getElementById('filterPeriod').value,
+                dataInicio: document.getElementById('filterDateStart').value,
+                dataFim: document.getElementById('filterDateEnd').value
+            }); }
             function limparFiltros() {
                 document.getElementById('filterPriority').value = '';
                 document.getElementById('filterPeriod').value = '';
@@ -1361,15 +1342,13 @@
             }
             
             function mostrarAlerta(msg, tipo) {
-                const container = document.getElementById('alertContainer');
-                container.innerHTML = `<div class="alert ${tipo}">${escapeHtml(msg)}</div>`;
-                setTimeout(() => container.innerHTML = '', 5000);
+                document.getElementById('alertContainer').innerHTML = `<div class="alert ${tipo}">${escapeHtml(msg)}</div>`;
+                setTimeout(() => document.getElementById('alertContainer').innerHTML = '', 5000);
             }
             
             function mostrarAlertaApp(msg) {
-                const container = document.getElementById('alertAppContainer');
-                container.innerHTML = `<div class="alert-app">${escapeHtml(msg)}</div>`;
-                setTimeout(() => container.innerHTML = '', 3000);
+                document.getElementById('alertAppContainer').innerHTML = `<div class="alert-app">${escapeHtml(msg)}</div>`;
+                setTimeout(() => document.getElementById('alertAppContainer').innerHTML = '', 3000);
             }
             
             document.addEventListener('DOMContentLoaded', function() {
@@ -1377,59 +1356,33 @@
                 document.getElementById('logoutBtn').addEventListener('click', fazerLogout);
                 document.getElementById('addTaskBtn').addEventListener('click', adicionarTarefa);
                 document.getElementById('addNoteBtn').addEventListener('click', afixarNota);
-                
                 document.getElementById('openArchiveBtn').addEventListener('click', abrirArquivo);
                 document.getElementById('closeArchiveBtn').addEventListener('click', fecharArquivo);
                 document.getElementById('applyFiltersBtn').addEventListener('click', aplicarFiltros);
                 document.getElementById('clearFiltersBtn').addEventListener('click', limparFiltros);
-                
-                document.getElementById('archiveModal').addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        fecharArquivo();
-                    }
+                document.getElementById('archiveModal').addEventListener('click', e => { if(e.target === e.currentTarget) fecharArquivo(); });
+                document.getElementById('emailInput').addEventListener('keypress', e => { if(e.key === 'Enter') document.getElementById('passwordInput').focus(); });
+                document.getElementById('passwordInput').addEventListener('keypress', e => { if(e.key === 'Enter') fazerLogin(); });
+                document.getElementById('tarefaInput').addEventListener('keypress', e => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); adicionarTarefa(); } });
+                document.querySelectorAll('.priority-buttons button').forEach(btn => btn.addEventListener('click', function() {
+                    document.querySelectorAll('.priority-buttons button').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    prioridadeAtual = this.getAttribute('data-priority');
+                }));
+                document.addEventListener('click', async e => {
+                    if (e.target.classList.contains('delete-btn')) await apagarItem(e.target.getAttribute('data-id'));
                 });
-                
-                document.getElementById('emailInput').addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') document.getElementById('passwordInput').focus();
-                });
-                
-                document.getElementById('passwordInput').addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') fazerLogin();
-                });
-                
-                document.getElementById('tarefaInput').addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        adicionarTarefa();
-                    }
-                });
-                
-                document.querySelectorAll('.priority-buttons button').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        document.querySelectorAll('.priority-buttons button').forEach(b => b.classList.remove('active'));
-                        this.classList.add('active');
-                        prioridadeAtual = this.getAttribute('data-priority');
-                    });
-                });
-                
-                document.addEventListener('click', async (e) => {
-                    if (e.target.classList.contains('delete-btn')) {
-                        const id = e.target.getAttribute('data-id');
-                        await apagarItem(id);
-                    }
-                });
-                
-                document.addEventListener('change', async (e) => {
+                document.addEventListener('change', async e => {
                     if (e.target.classList.contains('status-select')) {
-                        const id = e.target.getAttribute('data-id');
-                        await sbClient.from('tasks').update({ status: e.target.value }).eq('id', id);
+                        await sbClient.from('tasks').update({status:e.target.value}).eq('id',e.target.getAttribute('data-id'));
                         setTimeout(carregarTarefas, 200);
                     }
                 });
-                
                 init();
             });
         })();
     </script>
 </body>
 </html>
+ENDOFFILE
+echo "✅ Versão universal criada"
